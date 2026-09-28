@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STS Genap 2026 | SMA Muhammadiyah 2 Surabaya</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root { --navy:#083b69; --blue:#0a5fa8; --teal:#0f756d; --ink:#172033; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"DM Sans",sans-serif; color:var(--ink); background-color:#f8fafc; }
+    .title-font { font-family:"Playfair Display",serif; }
+    .home-bg { min-height:100vh; background:radial-gradient(circle at 15% 15%,#32465f 0,#151b25 38%,#0b1018 100%); }
+    .page-bg { min-height:100vh; background:#e9f1fa; }
+    .home-card { box-shadow:0 25px 60px rgba(0,0,0,.28); }
+    .nav-number { width:40px; height:40px; border-radius:10px; font-weight:800; border:1px solid #d8e0eb; background:#fff; transition:.2s; }
+    .nav-number.done { background:#17855d; color:#fff; border-color:#17855d; }
+    .nav-number.doubt { background:#f4a929; color:#202020; border-color:#f4a929; }
+    .nav-number.current { outline:3px solid #1d72be; outline-offset:2px; }
+    .choice { transition:.18s; border:1px solid #d6dfeb; cursor:pointer; }
+    .choice:hover { border-color:#1674c5; background:#eef7ff; }
+    .choice.selected { border-color:#0b66ad; background:#e2f2ff; box-shadow:0 0 0 2px #9fd3fb; }
+    .question-doc table { border-collapse:collapse; width:100%; }
+    .question-doc th,.question-doc td { border:1px solid #cbd5e1; padding:10px; vertical-align:top; }
+    .question-doc th { background:#e9f4fb; }
+    .soft-reveal { animation:reveal .35s ease both; }
+    @keyframes reveal { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    @media print {
+      body * { visibility:hidden; }
+      #score-result, #score-result * { visibility:visible; }
+      #score-result { position:absolute; left:0; top:0; width:100%; box-shadow:none!important; }
+      .no-print { display:none!important; }
+    }
+  </style>
+</head>
+<body class="w-full">
+  <main>
+    <!-- HOME SCREEN -->
+    <section id="home-screen" class="home-bg w-full px-4 py-8 md:px-8 flex items-center justify-center">
+      <div class="mx-auto max-w-4xl w-full">
+        <header class="mb-10 flex flex-col items-center text-center text-white">
+          <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-3xl font-extrabold shadow-xl ring-4 ring-white/20">
+            M2
+          </div>
+          <p class="text-sm font-bold tracking-[.2em] text-blue-300">SMA MUHAMMADIYAH 2 SURABAYA</p>
+          <h1 class="title-font mt-2 text-3xl md:text-5xl font-extrabold">Sumatif Tengah Semester Genap</h1>
+          <p class="mt-3 max-w-2xl text-slate-300 text-sm md:text-base">Sistem Ujian Online Computer Based Test (CBT) Tahun Ajaran 2025/2026</p>
+        </header>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- CARD SISWA -->
+          <article class="home-card rounded-3xl bg-slate-800/80 backdrop-blur border border-white/10 p-7 text-white flex flex-col justify-between">
+            <div>
+              <div class="mb-5 flex items-center gap-3">
+                <span class="rounded-2xl bg-blue-500/20 p-3 text-blue-400"><i data-lucide="graduation-cap" class="h-8 w-8"></i></span>
+                <div>
+                  <h2 class="text-xl font-bold">Portal Siswa</h2>
+                  <p class="text-sm text-slate-300">Masuk untuk memulai ujian matematika</p>
+                </div>
+              </div>
+            </div>
+            <button id="open-student" type="button" class="mt-6 w-full rounded-xl bg-blue-600 px-5 py-3.5 font-bold text-white transition hover:bg-blue-500 shadow-lg shadow-blue-600/30">
+              Masuk Ujian Siswa
+            </button>
+          </article>
+
+          <!-- CARD GURU -->
+          <article class="home-card rounded-3xl bg-slate-800/80 backdrop-blur border border-white/10 p-7 text-white flex flex-col justify-between">
+            <div>
+              <div class="mb-5 flex items-center gap-3">
+                <span class="rounded-2xl bg-teal-500/20 p-3 text-teal-400"><i data-lucide="shield-check" class="h-8 w-8"></i></span>
+                <div>
+                  <h2 class="text-xl font-bold">Panel Guru</h2>
+                  <p class="text-sm text-slate-300">Akses hasil, bank soal & kunci jawaban</p>
+                </div>
+              </div>
+            </div>
+            <button id="open-teacher" type="button" class="mt-6 w-full rounded-xl bg-teal-600 px-5 py-3.5 font-bold text-white transition hover:bg-teal-500 shadow-lg shadow-teal-600/30">
+              Akses Panel Guru
+            </button>
+          </article>
+        </div>
+
+        <p class="mt-10 text-center text-xs font-semibold text-slate-400">
+          Tim Pengembang Sistem CBT SMA Muhammadiyah 2 Surabaya © 2026
+        </p>
+      </div>
+    </section>
+
+    <!-- MODAL PASSWORD GURU -->
+    <div id="password-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+      <div class="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl soft-reveal">
+        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-100 text-teal-700">
+          <i data-lucide="lock" class="h-7 w-7"></i>
+        </div>
+        <h3 class="text-center text-xl font-bold text-slate-800">Autentikasi Guru</h3>
+        <p class="mt-1 text-center text-sm text-slate-500">Masukkan kata sandi otorisasi untuk mengakses panel</p>
+        
+        <form id="password-form" class="mt-6">
+          <div class="mb-4">
+            <label class="mb-1 block text-xs font-bold uppercase text-slate-600" for="teacher-pwd">Password</label>
+            <input id="teacher-pwd" type="password" required placeholder="••••••" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-center text-lg tracking-widest outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100">
+            <p id="pwd-error" class="mt-2 hidden text-center text-xs font-bold text-red-600">Password salah! Silakan coba lagi.</p>
+          </div>
+          <div class="flex gap-3">
+            <button type="button" id="close-password-modal" class="w-1/2 rounded-xl bg-slate-100 py-3 font-bold text-slate-600 hover:bg-slate-200">Batal</button>
+            <button type="submit" class="w-1/2 rounded-xl bg-teal-600 py-3 font-bold text-white hover:bg-teal-700">Masuk</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- LOGIN SISWA -->
+    <section id="student-login" class="page-bg hidden w-full px-4 py-10 flex items-center justify-center">
+      <div class="mx-auto max-w-md w-full rounded-3xl bg-white p-7 shadow-xl soft-reveal">
+        <button class="mb-5 flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-slate-800" type="button" data-back>
+          <i data-lucide="arrow-left" class="h-4 w-4"></i><span>Kembali ke Beranda</span>
+        </button>
+        <h2 class="text-2xl font-bold text-[#083b69]">Identitas Peserta Ujian</h2>
+        <p class="mt-1 text-sm text-slate-500">Isi data diri dengan benar sebelum memulai ujian.</p>
+        
+        <form id="student-form" class="mt-6 space-y-4">
+          <div>
+            <label class="mb-1 block text-xs font-bold uppercase text-slate-600" for="student-name">Nama Lengkap Siswa</label>
+            <input id="student-name" required placeholder="Contoh: Muhammad Rizky" class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100">
+          </div>
+          <div>
+            <label class="mb-1 block text-xs font-bold uppercase text-slate-600" for="student-class">Kelas</label>
+            <select id="student-class" required class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-blue-600">
+              <option value="">-- Pilih Kelas --</option>
+              <option value="11.1">11.1</option>
+              <option value="11.2">11.2</option>
+              <option value="11.3">11.3</option>
+              <option value="11.4">11.4</option>
+              <option value="11.5">11.5</option>
+            </select>
+          </div>
+          <div>
+            <label class="mb-1 block text-xs font-bold uppercase text-slate-600" for="attendance">Nomor Absen (28 - 40)</label>
+            <input id="attendance" type="number" min="28" max="40" required placeholder="Masukkan angka 28-40" class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600">
+            <span class="mt-1 block text-xs text-slate-400">*Absen ganjil mendapat Paket A, absen genap mendapat Paket B</span>
+          </div>
+          <p id="student-login-message" class="hidden rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700"></p>
+          <button type="submit" class="w-full rounded-xl bg-blue-600 py-3.5 font-bold text-white shadow-lg shadow-blue-600/30 hover:bg-blue-700">
+            Mulai Ujian Sekarang
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- EXAM SCREEN -->
+    <section id="exam-screen" class="page-bg hidden w-full pb-10">
+      <header class="bg-[#083b69] px-4 py-3 text-white shadow-lg sticky top-0 z-40">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-3">
+          <div>
+            <p id="exam-student" class="font-bold text-sm md:text-base"></p>
+            <p id="exam-package" class="text-xs text-blue-200"></p>
+          </div>
+          <div class="rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-center">
+            <p class="text-[10px] font-bold tracking-wider text-blue-200 uppercase">Sisa Waktu</p>
+            <p id="timer" class="text-xl font-extrabold tabular-nums">60:00</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="mx-auto grid max-w-7xl gap-5 p-4 lg:grid-cols-[280px_1fr] lg:p-6">
+        <!-- NAVIGATION PANEL -->
+        <aside class="rounded-2xl bg-white p-5 shadow-sm h-fit">
+          <h2 class="mb-3 font-bold text-[#083b69]">Navigasi Soal</h2>
+          <div id="question-nav" class="grid grid-cols-5 gap-2"></div>
+          <div class="mt-6 space-y-2 text-xs font-semibold text-slate-600 border-t pt-4">
+            <p class="flex items-center"><span class="mr-2 inline-block h-3 w-3 rounded bg-white ring-1 ring-slate-300"></span> Belum dijawab</p>
+            <p class="flex items-center"><span class="mr-2 inline-block h-3 w-3 rounded bg-[#17855d]"></span> Sudah dijawab</p>
+            <p class="flex items-center"><span class="mr-2 inline-block h-3 w-3 rounded bg-[#f4a929]"></span> Ragu-ragu</p>
+          </div>
+          <button id="submit-exam" type="button" class="mt-6 w-full rounded-xl bg-red-600 py-3 font-bold text-white hover:bg-red-700 shadow-md">
+            Selesai Ujian
+          </button>
+        </aside>
+
+        <!-- QUESTION AREA -->
+        <section class="min-w-0 rounded-2xl bg-white p-5 shadow-sm md:p-8 flex flex-col justify-between">
+          <div>
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-3 border-b pb-4">
+              <span id="question-count" class="rounded-full bg-blue-100 px-4 py-1 text-xs font-bold text-[#075b9d]"></span>
+              <button id="doubt-button" type="button" class="rounded-xl border border-amber-300 bg-amber-50 px-4 py-2 text-xs font-bold text-amber-800 hover:bg-amber-100">
+                <i data-lucide="flag" class="mr-1 inline-block h-3.5 w-3.5"></i> Ragu-Ragu
+              </button>
+            </div>
+            <h2 id="question-text" class="text-base font-bold leading-relaxed text-slate-800 md:text-lg"></h2>
+            <div id="choices" class="mt-6 space-y-3"></div>
+          </div>
+
+          <div class="mt-8 flex justify-between gap-3 border-t pt-5">
+            <button id="prev-button" type="button" class="rounded-xl bg-slate-100 px-5 py-2.5 font-bold text-slate-700 hover:bg-slate-200 disabled:opacity-40">
+              Sebelumnya
+            </button>
+            <button id="next-button" type="button" class="rounded-xl bg-blue-600 px-5 py-2.5 font-bold text-white hover:bg-blue-700 disabled:opacity-40">
+              Berikutnya
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- RESULT SCREEN -->
+    <section id="result-screen" class="page-bg hidden w-full px-4 py-10 flex items-center justify-center">
+      <article id="score-result" class="mx-auto max-w-xl w-full rounded-3xl bg-white p-8 text-center shadow-xl soft-reveal">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-700">
+          <i data-lucide="award" class="h-8 w-8"></i>
+        </div>
+        <h2 class="mt-4 text-2xl font-bold text-[#083b69]">Ujian Telah Selesai</h2>
+        <p id="result-name" class="mt-1 font-bold text-slate-700"></p>
+
+        <div class="my-6 rounded-2xl bg-[#edf6ff] p-6 border border-blue-100">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Nilai Akhir Anda</p>
+          <p id="final-score" class="text-6xl font-extrabold text-[#0a5fa8] my-2"></p>
+          <p id="final-grade" class="font-bold text-slate-600"></p>
+        </div>
+
+        <div id="result-stats" class="grid grid-cols-3 gap-3 text-sm"></div>
+
+        <div class="no-print mt-8 flex flex-col sm:flex-row gap-3">
+          <button id="print-score" type="button" class="w-full rounded-xl bg-slate-800 py-3 font-bold text-white hover:bg-slate-900">
+            Cetak Hasil
+          </button>
+          <button id="finish-button" type="button" class="w-full rounded-xl bg-blue-600 py-3 font-bold text-white hover:bg-blue-700">
+            Kembali ke Beranda
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- TEACHER SCREEN -->
+    <section id="teacher-screen" class="page-bg hidden w-full p-4 md:p-8">
+      <div class="mx-auto max-w-7xl">
+        <header class="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-[#083b69] p-6 text-white shadow-md">
+          <div>
+            <h1 class="text-2xl font-bold">Dashboard Panel Guru</h1>
+            <p class="mt-1 text-sm text-blue-200">Rekap Nilai Siswa & Kelola Bank Soal STS Genap 2026</p>
+          </div>
+          <button id="teacher-back" type="button" class="rounded-xl bg-white/10 px-4 py-2 text-sm font-bold hover:bg-white/20">
+            Keluar Panel
+          </button>
+        </header>
+
+        <div id="teacher-stats" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"></div>
+
+        <!-- TABLE REKAP NILAI -->
+        <section class="mt-6 rounded-2xl bg-white p-5 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 class="font-bold text-lg text-[#083b69]">Rekapitulasi Hasil Siswa</h2>
+            <div class="flex flex-wrap gap-2">
+              <select id="class-filter" class="rounded-lg border px-3 py-2 text-sm outline-none">
+                <option value="">Semua Kelas</option>
+                <option value="11.1">11.1</option>
+                <option value="11.2">11.2</option>
+                <option value="11.3">11.3</option>
+                <option value="11.4">11.4</option>
+                <option value="11.5">11.5</option>
+              </select>
+              <button id="clear-data" type="button" class="rounded-lg bg-red-100 px-3 py-2 text-sm font-bold text-red-700 hover:bg-red-200">
+                Hapus Semua Data
+              </button>
+            </div>
+          </div>
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full min-w-[800px] text-left text-sm">
+              <thead class="border-b bg-slate-50 text-slate-500">
+                <tr>
+                  <th class="p-3">Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Absen</th>
+                  <th>Paket</th>
+                  <th>Nilai</th>
+                  <th>Grade</th>
+                  <th>Benar/Salah/Kosong</th>
+                  <th>Waktu Selesai</th>
+                </tr>
+              </thead>
+              <tbody id="score-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- PREVIEW SOAL PAKET -->
+        <section class="mt-6 rounded-2xl bg-white p-5 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="font-bold text-lg text-[#083b69]">Daftar Dokumen Soal</h2>
+              <p class="text-sm text-slate-500">Tampilan lengkap soal pilihan ganda</p>
+            </div>
+            <div class="flex gap-2">
+              <button id="show-package-a" type="button" class="rounded-lg bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700">Lihat Paket A</button>
+              <button id="show-package-b" type="button" class="rounded-lg bg-teal-600 px-4 py-2 text-xs font-bold text-white hover:bg-teal-700">Lihat Paket B</button>
+            </div>
+          </div>
+          <div id="full-questions" class="question-doc mt-5 overflow-x-auto"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    const letters = ["A","B","C","D","E"];
+    const sourceQuestions = [
+      ["Matriks","Sedang","Menentukan nilai polinom matriks 3P² + P","C3","Jika P = [[1, 2], [0, 1]], maka nilai 3P² + P adalah ...",["[[4, 14], [0, 4]]","[[6, 14], [0, 6]]","[[4, 12], [0, 4]]","[[3, 8], [0, 3]]","[[4, 10], [0, 4]]"],"A"],
+      ["Matriks","Sedang","Menentukan matriks dari persamaan yang melibatkan matriks singular","C3","Diketahui A = [[1, 2], [2, 4]] merupakan matriks singular dan 2X + A = [[5, 8], [8, 14]]. Nilai matriks X adalah ...",["[[2, 2], [2, 5]]","[[2, 3], [3, 5]]","[[3, 2], [3, 5]]","[[1, 3], [3, 4]]","[[2, 3], [2, 4]]"],"B"],
+      ["Matriks","Sedang","Menentukan transpose matriks hasil operasi dan perkalian","C3","Jika A = [[1, 2, 0], [-1, 3, 4]] dan B = [[2, -1], [0, 3], [1, 2]], maka transpose dari AB adalah ...",["[[2, 4], [2, 18]]","[[2, -1], [4, 18]]","[[2, 2], [4, 18]]","[[2, 2], [4, 10]]","[[2, 4], [-1, 18]]"],"C"],
+      ["Matriks","Sedang","Menganalisis matriks singular melalui kombinasi operasi matriks","C4","Diketahui A = [[1, 2], [2, 4]] dan B = [[3, 6], [1, 2]]. Jika X = A + B dan Y = 2A - B, maka matriks X + Y adalah ...",["[[5, 10], [4, 10]]","[[1, 2], [6, 10]]","[[4, 8], [5, 10]]","[[3, 6], [6, 12]]","[[6, 12], [3, 6]]"],"D"],
+      ["Matriks","Sedang","Menentukan matriks dari hubungan invers","C3","Jika A = [[2, 1], [1, 1]] dan A.B⁻¹ = [[1, 0], [0, 1]], maka B adalah ...",["[[2, 1], [1, 1]]","[[1, -1], [-1, 2]]","[[3, 2], [2, 1]]","[[2, -1], [-1, 1]]","[[1, 1], [1, 2]]"],"A"],
+      ["Matriks","Mudah","Menghitung determinan matriks ordo 3","C3","Determinan matriks [[1, 2, 3], [0, 1, 4], [5, 6, 0]] adalah ...",["-1","1","0","5","10"],"B"],
+      ["Matriks","Sedang","Menentukan matriks X dalam persamaan matriks","C4","Jika X . [[2, 1], [1, 1]] = [[5, 3], [4, 2]], maka X adalah ...",["[[1, 2], [0, 2]]","[[3, 0], [1, 1]]","[[2, 1], [2, 0]]","[[2, 2], [1, 1]]","[[1, 1], [2, 0]]"],"C"],
+      ["Transformasi","Mudah","Menentukan bayangan titik oleh translasi","C3","Bayangan titik P(2, -3) oleh translasi T = (4, 5) adalah ...",["(-2, 2)","(6, -8)","(2, 2)","(6, 2)","(4, 5)"],"D"],
+      ["Transformasi","Sedang","Menentukan persamaan garis hasil translasi","C3","Garis y = 2x - 1 ditranslasikan oleh T = (3, 2). Persamaan bayangannya adalah ...",["y = 2x - 5","y = 2x + 1","y = 2x - 1","y = -2x + 1","y = 2x + 5"],"A"],
+      ["Transformasi","Mudah","Menentukan bayangan titik oleh refleksi","C2","Bayangan titik A(-4, 3) terhadap sumbu-Y adalah ...",["(-4, -3)","(4, -3)","(3, -4)","(-3, 4)","(4, 3)"],"E"],
+      ["Transformasi","Tinggi","Menentukan bayangan garis terhadap sumbu-X","C4","Bayangan garis 2x + y - 4 = 0 terhadap sumbu-X adalah ...",["2x + y + 4 = 0","-2x + y - 4 = 0","2x - y - 4 = 0","x + 2y - 4 = 0","2x - y + 4 = 0"],"C"],
+      ["Transformasi","Tinggi","Menentukan bayangan titik oleh rotasi 90 derajat","C4","Titik B(3, -2) dirotasikan 90° berlawanan arah jarum jam terhadap O. Hasilnya adalah ...",["(-2, -3)","(2, 3)","(3, 2)","(-3, 2)","(-2, 3)"],"B"],
+      ["Transformasi","Sedang","Menentukan persamaan garis hasil rotasi 180 derajat terhadap titik (2,-3)","C4","Bayangan garis x - 2y + 6 = 0 oleh rotasi 180° terhadap titik (2,-3) adalah ...",["x - 2y - 22 = 0","x + 2y - 22 = 0","-x - 2y - 22 = 0","x - 2y + 22 = 0","2x - y - 22 = 0"],"A"],
+      ["Transformasi","Sedang","Menentukan bayangan titik oleh dilatasi","C3","Titik C(-2, 5) didilatasikan berpusat O dengan faktor skala -2. Bayangannya adalah ...",["(-4, 10)","(4, 10)","(-4, -10)","(2, -5)","(4, -10)"],"E"],
+      ["Transformasi","Tinggi","Menyelesaikan komposisi dua transformasi","C4","Titik P(2, 3) direfleksikan terhadap garis y = 1 lalu dirotasikan 180° terhadap O. Bayangan akhir P adalah ...",["(2, -1)","(-2, -1)","(2, 1)","(-3, -2)","(-2, 1)"],"E"]
+    ];
+
+    const questionsA = sourceQuestions.map(q => ({ topic:q[0], level:q[1], indicator:q[2], cognitive:q[3], text:q[4], options:q[5], answer:q[6] }));
+    const shiftPackageNumbers = value => String(value).replace(/\d/g, digit => String((Number(digit) + 1) % 10));
+    const questionsB = questionsA.map(q => ({ ...q, text: shiftPackageNumbers(q.text), options: q.options.map(opt => shiftPackageNumbers(opt)) }));
+
+    let activeQuestions = [], current = 0, responses = {}, doubts = {}, student = {}, remaining = 3600, examTimer = null, records = [], displayPackage = "A";
+    const $ = id => document.getElementById(id);
+
+    try {
+      const saved = localStorage.getItem("cbt_records");
+      if (saved) records = JSON.parse(saved);
+    } catch(e) {}
+
+    function show(id) {
+      ["home-screen","student-login","exam-screen","result-screen","teacher-screen"].forEach(item => $(item).classList.toggle("hidden", item !== id));
+      window.scrollTo(0, 0);
+    }
+
+    function formatTime(sec) {
+      return String(Math.floor(sec / 60)).padStart(2,"0") + ":" + String(sec % 60).padStart(2,"0");
+    }
+
+    function grade(score) {
+      return score >= 90 ? "A" : score >= 80 ? "B" : score >= 70 ? "C" : score >= 60 ? "D" : "E";
+    }
+
+    function shuffleStable(items, seed) {
+      const result = [...items];
+      let value = seed;
+      for (let i = result.length - 1; i > 0; i--) {
+        value = (value * 9301 + 49297) % 233280;
+        const j = Math.floor(value / 233280 * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+      return result;
+    }
+
+    $("open-student").addEventListener("click", () => show("student-login"));
+    
+    $("open-teacher").addEventListener("click", () => {
+      $("pwd-error").classList.add("hidden");
+      $("teacher-pwd").value = "";
+      $("password-modal").classList.remove("hidden");
+      $("teacher-pwd").focus();
+    });
+
+    $("close-password-modal").addEventListener("click", () => {
+      $("password-modal").classList.add("hidden");
+    });
+
+    $("password-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const enteredPwd = $("teacher-pwd").value.trim();
+      if (enteredPwd === "677805") {
+        $("password-modal").classList.add("hidden");
+        show("teacher-screen");
+        renderTeacher();
+        renderFullQuestions();
+      } else {
+        $("pwd-error").classList.remove("hidden");
+      }
+    });
+
+    document.querySelectorAll("[data-back]").forEach(btn => btn.addEventListener("click", () => show("home-screen")));
+    $("teacher-back").addEventListener("click", () => show("home-screen"));
+
+    $("student-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = $("student-name").value.trim();
+      const kelas = $("student-class").value;
+      const absent = Number($("attendance").value);
+
+      if (!name || !kelas || absent < 28 || absent > 40) {
+        $("student-login-message").textContent = "Pilih kelas dan nomor absen antara 28 sampai 40.";
+        $("student-login-message").classList.remove("hidden");
+        return;
+      }
+      $("student-login-message").classList.add("hidden");
+      
+      student = { name, kelas, absent, type: absent % 2 !== 0 ? "A" : "B" };
+      activeQuestions = shuffleStable(student.type === "A" ? questionsA : questionsB, name.length * 71 + absent * 19);
+      current = 0; responses = {}; doubts = {}; remaining = 3600;
+
+      $("exam-student").textContent = `${name} · Kelas ${kelas} · Absen ${absent}`;
+      $("exam-package").textContent = `Paket Soal Tipe ${student.type}`;
+      
+      show("exam-screen");
+      renderExam(); renderNav(); updateTimer();
+
+      clearInterval(examTimer);
+      examTimer = setInterval(() => {
+        remaining--;
+        updateTimer();
+        if (remaining <= 0) submitExam();
+      }, 1000);
+    });
+
+    function updateTimer() {
+      $("timer").textContent = formatTime(Math.max(0, remaining));
+    }
+
+    function renderExam() {
+      const q = activeQuestions[current];
+      $("question-count").textContent = `Soal ${current + 1} dari ${activeQuestions.length} · ${q.topic}`;
+      $("question-text").textContent = q.text;
+      $("choices").innerHTML = "";
+
+      q.options.forEach((opt, idx) => {
+        const letter = letters[idx];
+        const label = document.createElement("label");
+        label.className = "choice flex items-start gap-3 rounded-xl p-4 " + (responses[current] === letter ? "selected" : "");
+        label.innerHTML = `
+          <input type="radio" name="answer" value="${letter}" ${responses[current] === letter ? "checked" : ""} class="mt-1 h-4 w-4 accent-blue-700">
+          <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-extrabold">${letter}</span>
+          <span class="font-medium text-slate-800 leading-relaxed">${opt}</span>
+        `;
+        label.querySelector("input").addEventListener("change", () => {
+          responses[current] = letter;
+          renderNav();
+          renderExam();
+        });
+        $("choices").appendChild(label);
+      });
+
+      $("prev-button").disabled = current === 0;
+      $("next-button").disabled = current === activeQuestions.length - 1;
+    }
+
+    function renderNav() {
+      $("question-nav").innerHTML = "";
+      activeQuestions.forEach((_, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = idx + 1;
+        btn.className = "nav-number " + (responses[idx] ? "done " : "") + (doubts[idx] ? "doubt " : "") + (current === idx ? "current" : "");
+        btn.addEventListener("click", () => { current = idx; renderExam(); renderNav(); });
+        $("question-nav").appendChild(btn);
+      });
+    }
+
+    $("prev-button").addEventListener("click", () => { if (current > 0) { current--; renderExam(); renderNav(); } });
+    $("next-button").addEventListener("click", () => { if (current < activeQuestions.length - 1) { current++; renderExam(); renderNav(); } });
+    $("doubt-button").addEventListener("click", () => { doubts[current] = !doubts[current]; renderNav(); });
+
+    $("submit-exam").addEventListener("click", () => {
+      if (confirm("Apakah Anda yakin ingin menyelesaikan ujian ini?")) submitExam();
+    });
+
+    function submitExam() {
+      clearInterval(examTimer);
+      let correct = 0;
+      activeQuestions.forEach((q, idx) => { if (responses[idx] === q.answer) correct++; });
+      const unanswered = activeQuestions.length - Object.keys(responses).length;
+      const wrong = activeQuestions.length - correct - unanswered;
+      const score = Math.round((correct / activeQuestions.length) * 100);
+
+      const record = {
+        nama_siswa: student.name,
+        kelas: student.kelas,
+        no_absen: student.absent,
+        tipe_soal: student.type,
+        nilai: score,
+        grade: grade(score),
+        jumlah_benar: correct,
+        jumlah_salah: wrong,
+        tidak_dijawab: unanswered,
+        waktu_selesai: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
+      };
+
+      records.push(record);
+      try { localStorage.setItem("cbt_records", JSON.stringify(records)); } catch(e) {}
+
+      $("result-name").textContent = `${student.name} · Kelas ${student.kelas} (Absen ${student.absent})`;
+      $("final-score").textContent = score;
+      $("final-grade").textContent = `Grade ${grade(score)}`;
+      $("result-stats").innerHTML = `
+        <div class="rounded-xl bg-green-50 p-3 border border-green-100"><b class="block text-xl text-green-700">${correct}</b><span class="text-xs text-slate-500">Benar</span></div>
+        <div class="rounded-xl bg-red-50 p-3 border border-red-100"><b class="block text-xl text-red-700">${wrong}</b><span class="text-xs text-slate-500">Salah</span></div>
+        <div class="rounded-xl bg-slate-100 p-3 border border-slate-200"><b class="block text-xl text-slate-700">${unanswered}</b><span class="text-xs text-slate-500">Kosong</span></div>
+      `;
+
+      show("result-screen");
+    }
+
+    $("print-score").addEventListener("click", () => window.print());
+    $("finish-button").addEventListener("click", () => show("home-screen"));
+
+    function renderTeacher() {
+      const cls = $("class-filter").value;
+      const filtered = cls ? records.filter(r => r.kelas === cls) : records;
+      const scores = filtered.map(r => r.nilai);
+      const avg = scores.length ? (scores.reduce((a,b) => a+b, 0) / scores.length).toFixed(1) : "0";
+
+      $("teacher-stats").innerHTML = `
+        <div class="rounded-2xl bg-white p-5 shadow-sm border border-slate-100"><p class="text-xs font-bold text-slate-400 uppercase">Total Peserta</p><p class="mt-1 text-3xl font-extrabold text-[#0f756d]">${filtered.length}</p></div>
+        <div class="rounded-2xl bg-white p-5 shadow-sm border border-slate-100"><p class="text-xs font-bold text-slate-400 uppercase">Rata-Rata Nilai</p><p class="mt-1 text-3xl font-extrabold text-[#0a5fa8]">${avg}</p></div>
+        <div class="rounded-2xl bg-white p-5 shadow-sm border border-slate-100"><p class="text-xs font-bold text-slate-400 uppercase">Nilai Tertinggi</p><p class="mt-1 text-3xl font-extrabold text-green-600">${scores.length ? Math.max(...scores) : 0}</p></div>
+        <div class="rounded-2xl bg-white p-5 shadow-sm border border-slate-100"><p class="text-xs font-bold text-slate-400 uppercase">Nilai Terendah</p><p class="mt-1 text-3xl font-extrabold text-red-600">${scores.length ? Math.min(...scores) : 0}</p></div>
+      `;
+
+      $("score-table").innerHTML = filtered.map(r => `
+        <tr class="border-b hover:bg-slate-50">
+          <td class="p-3 font-bold">${r.nama_siswa}</td>
+          <td>${r.kelas}</td>
+          <td>${r.no_absen}</td>
+          <td><span class="rounded bg-slate-100 px-2 py-0.5 text-xs font-bold">${r.tipe_soal}</span></td>
+          <td class="font-extrabold text-blue-700">${r.nilai}</td>
+          <td><span class="font-bold">${r.grade}</span></td>
+          <td>${r.jumlah_benar} / ${r.jumlah_salah} / ${r.tidak_dijawab}</td>
+          <td>${r.waktu_selesai}</td>
+        </tr>
+      `).join("");
+    }
+
+    $("class-filter").addEventListener("change", renderTeacher);
+    $("clear-data").addEventListener("click", () => {
+      if (confirm("Hapus seluruh data rekapitulasi ujian siswa?")) {
+        records = [];
+        localStorage.removeItem("cbt_records");
+        renderTeacher();
+      }
+    });
+
+    function renderFullQuestions() {
+      const qList = displayPackage === "A" ? questionsA : questionsB;
+      $("full-questions").innerHTML = `
+        <table>
+          <thead>
+            <tr><th style="width:50px">No.</th><th>Soal Pilihan Ganda — Paket ${displayPackage}</th><th style="width:100px">Kunci</th></tr>
+          </thead>
+          <tbody>
+            ${qList.map((q, i) => `
+              <tr>
+                <td><b>${i + 1}</b></td>
+                <td>
+                  <p><b>${q.text}</b></p>
+                  <ol type="A" style="margin:8px 0 0 18px">
+                    ${q.options.map(opt => `<li style="margin:2px 0">${opt}</li>`).join("")}
+                  </ol>
+                </td>
+                <td class="font-bold text-center text-blue-700">${q.answer}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    $("show-package-a").addEventListener("click", () => { displayPackage = "A"; renderFullQuestions(); });
+    $("show-package-b").addEventListener("click", () => { displayPackage = "B"; renderFullQuestions(); });
+  </script>
+</body>
+</html>
